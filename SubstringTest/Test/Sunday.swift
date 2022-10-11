@@ -7,8 +7,9 @@
 
 import Foundation
 
-enum Sunday: StringSearch {
-    static func index<T>(for pattern: [T], in text: [T]) -> Int? where T: Element {
+struct Sunday: StringSearch {
+    
+    func index(for pattern: [Element], in text: [Element]) -> Int? {
         guard self.shouldStartSearch(pattern: pattern, text: text) else {
             return nil
         }
@@ -44,8 +45,8 @@ enum Sunday: StringSearch {
         return nil
     }
     
-    private static func charsLastIndexes<T>(for pattern: [T]) -> [T: Int] where T: Element {
-        var dic = [T: Int]()
+    private func charsLastIndexes(for pattern: [Element]) -> [Element: Int] {
+        var dic = [Element: Int]()
         for (i, c) in pattern.enumerated() {
             dic[c] = i
         }

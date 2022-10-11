@@ -7,23 +7,23 @@
 
 import Foundation
 
-func Test<T: StringSearch.Element>(_ method: StringSearch.Type, pattern: [T], text: [T]) -> TestResult {
-    let start = Date.timeIntervalSinceReferenceDate
-    //let someThine = KMP.self
-    let someThine = method
-    print("start", someThine)
-    let index = someThine.index(for: pattern, in: text) ?? -1
-    let end = Date.timeIntervalSinceReferenceDate
-    let interval = end - start
-    if index == -1 {
-        print("WHAT ERROR??")
+extension StringSearch {
+    func test(pattern: [Element], text: [Element]) -> TestResult {
+        let start = Date.timeIntervalSinceReferenceDate
+        print("start", self)
+        let index = self.index(for: pattern, in: text) ?? -1
+        let end = Date.timeIntervalSinceReferenceDate
+        let interval = end - start
+        if index == -1 {
+            print("WHAT ERROR??")
+        }
+        print("time:", String(format: "%.06f", interval), "res:", index )
+        return TestResult(type: self, time: interval, index: index )
     }
-    print("time:", String(format: "%.06f", interval), "res:", index )
-    return TestResult(type: method, time: interval, index: index )
 }
 
 struct TestResult {
-    let type: StringSearch.Type
+    let type: Any
     let time: TimeInterval
     let index: Int
 }
@@ -51,27 +51,24 @@ for _ in 0 ..< 100 {
 //    let pattern = "EXAMPLE".elements
 //    let text = "HERE IS A SIMPLE EXAMPLE".elements
     
-    let testTypes: [StringSearch.Type] = [
-        BoyerMoore.self,
-        Sunday.self,
-        KMP.self,
-        Naive.self,
-//        ZArray.self,l
+    let testTypes: [any StringSearch] = [
+        BoyerMoore(),
+        Sunday(),
+        KMP(),
+        Naive(),
+//        ZArray<Character>(),
     ]
     var results = [TestResult]()
     for type in testTypes {
-        let time = Test(type, pattern: pattern, text: text)
+        let time = type.test(pattern: pattern, text: text)
         results.append(time)
     }
     let winner = results.min { res1, res2 in
         return res1.time < res2.time
     }
     let key = "\(winner!.type)"
-    if let old = winTimes[key] {
-        winTimes[key] = old + 1
-    } else {
-        winTimes[key] = 1
-    }
+    winTimes[key, default: 0] += 1
+    
     let allRes = Set(results.compactMap { res in
         return res.index
     })

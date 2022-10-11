@@ -7,8 +7,9 @@
 
 import Foundation
 
-enum Naive: StringSearch {
-    static func index<T>(for pattern: [T], in text: [T]) -> Int? where T : Element {
+struct Naive: StringSearch {
+    
+    func index(for pattern: [Element], in text: [Element]) -> Int? {
         guard self.shouldStartSearch(pattern: pattern, text: text) else {
             return nil
         }

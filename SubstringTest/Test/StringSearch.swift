@@ -18,12 +18,12 @@ extension String {
 }
 
 protocol StringSearch {
-    typealias Element = Hashable
-    static func index<T: Element>(for pattern: [T], in text: [T]) -> Int?
+    typealias Element = Character
+    func index(for pattern: [Element], in text: [Element]) -> Int?
 }
 
 extension StringSearch {
-    static func shouldStartSearch<T>(pattern: [T], text: [T]) -> Bool {
+    func shouldStartSearch(pattern: [Element], text: [Element]) -> Bool {
         let pLen = pattern.count
         guard pLen > 0 else {
             return false

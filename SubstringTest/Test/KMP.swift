@@ -9,8 +9,9 @@ import Foundation
 
 // 不知道是不是写错了，好慢好慢
 
-enum KMP: StringSearch {
-    static func index<T>(for pattern: [T], in text: [T]) -> Int? where T : Element {
+struct KMP: StringSearch {
+    
+    func index(for pattern: [Element], in text: [Element]) -> Int? {
         guard self.shouldStartSearch(pattern: pattern, text: text) else {
             return nil
         }
@@ -57,7 +58,7 @@ enum KMP: StringSearch {
  */
     }
     
-    private static func getNexts<T>(pattern: [T]) -> [Int] where T: Element {
+    private func getNexts(pattern: [Element]) -> [Int] {
         let len = pattern.count
         var nexts = [Int](repeating: 0, count: len)
         nexts[0] = -1

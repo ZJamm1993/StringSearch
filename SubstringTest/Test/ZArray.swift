@@ -7,16 +7,10 @@
 
 import Foundation
 
-enum ZArray: StringSearch {
+struct ZArray: StringSearch {
     
-    static func index<T>(for pattern: [T], in text: [T]) -> Int? where T : Element {
-        guard let patternStr = pattern as? [Character] else {
-            return nil
-        }
-        guard let textStr = text as? [Character] else {
-            return nil
-        }
-        let pst = patternStr + ["$"] + textStr
+    func index(for pattern: [Element], in text: [Element]) -> Int? {
+        let pst = pattern + ["$"] + text
         let l = pst.count
         let z = getZArray(for: pst)
         let pLen = pattern.count
@@ -28,7 +22,7 @@ enum ZArray: StringSearch {
         return nil
     }
     
-    static func getZArray(for string: [Character]) -> [Int] {
+    func getZArray(for string: [Element]) -> [Int] {
         let cnt = string.count
         if cnt == 0 {
             return []
